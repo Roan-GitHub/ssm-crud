@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" 
+	"http://struts.apache.org/dtds/struts-2.1.dtd" >
+<struts>
+	<package name="shop.user" extends="struts-default">
+		<!-- 会员入口-->	
+		 <action name="user_rukou" method="rukou"  class="com.mr.action.RukouAction">
+              <result name="success">/WEB-INF/User_qian/index.jsp</result>
+		</action>	
+		<!-- 首页-->	
+		 <action name="user_shouye_*" method="{1}"  class="com.mr.action.ShouyeAction">
+			  <result name="input">/WEB-INF/User_qian/shouye.jsp</result>
+              <result name="admin_success">/WEB-INF/Admin_hou/admin_shouye.jsp</result>
+              <result name="shouye">/WEB-INF/User_qian/shouye.jsp</result>   
+		</action>	
+		<!-- 前台登录 -->
+		 <action name="user_login_*" method="{1}"  class="com.mr.action.UserLoginAction">
+             <result name="user_login">/WEB-INF/User_qian/user/User_login.jsp</result>
+             <result name="input">/WEB-INF/User_qian/user/User_login.jsp</result>
+             <result name="shouye">/WEB-INF/User_qian/shouye.jsp</result>
+		</action>	
+		<!-- 前台注册 -->
+		 <action name="user_Insert" method="Insert"  class="com.mr.action.UserInsertAction">
+             <result name="user_login">/WEB-INF/User_qian/user/Zhuce.jsp</result>
+             <result name="input">/WEB-INF/User_qian/user/Zhuce.jsp</result>
+             <result name="success">/WEB-INF/User_qian/user/Zhuce_success.jsp</result>
+		</action>
+		<!-- 前台密码找回 -->	
+		 <action name="user_select" method="select"  class="com.mr.action.UserWangmiAction">
+             <result name="select_login">/WEB-INF/User_qian/user/Wangmi.jsp</result>
+             <result name="input">/WEB-INF/User_qian/user/Wangmi.jsp</result>
+		</action>	
+		
+		<!-- 货物信息 -->	
+		 <action name="user_goods_*" method="{1}"  class="com.mr.action.GoodsAction">
+             <result name="success">/WEB-INF/User_qian/user/show/show_goods.jsp</result>
+             <result name="goods">/WEB-INF/User_qian/user/Goods.jsp</result>
+             <result name="goods_message">/WEB-INF/Admin_hou/show/Goods_message.jsp</result>
+             <result name="insert_jsp">/WEB-INF/Admin_hou/insert/Goods_insert.jsp</result>
+             <result name="update_jsp">/WEB-INF/Admin_hou/update/Goods_update.jsp</result>
+             <result name="input">/WEB-INF/Admin_hou/insert/Goods_insert.jsp</result>
+             <result name="delete">/WEB-INF/Admin_hou/show/Goods_message.jsp</result>
+		</action>
+		<!-- 企业信息 -->	
+		 <action name="user_company_*" method="{1}"  class="com.mr.action.CompanyAction">
+             <result name="success">/WEB-INF/User_qian/user/show/show_company.jsp</result>
+             <result name="company">/WEB-INF/User_qian/user/Company.jsp</result>
+             <result name="company_message">/WEB-INF/Admin_hou/show/Company_message.jsp</result>
+             <result name="insert_jsp">/WEB-INF/Admin_hou/insert/Company_insert.jsp</result>
+             <result name="update_jsp">/WEB-INF/Admin_hou/update/Company_update.jsp</result>
+             <result name="input">/WEB-INF/Admin_hou/insert/Company_insert.jsp</result>
+             <result name="delete">/WEB-INF/Admin_hou/show/Company_message.jsp</result>
+		</action>
+		<!-- 车辆信息 -->	
+		 <action name="user_car_*" method="{1}"  class="com.mr.action.CarAction">
+             <result name="success">/WEB-INF/User_qian/user/show/show_car.jsp</result>
+             <result name="car">/WEB-INF/User_qian/user/Car.jsp</result>
+             <result name="car_message">/WEB-INF/Admin_hou/show/Car_message.jsp</result>
+             <result name="insert_jsp">/WEB-INF/Admin_hou/insert/Car_insert.jsp</result>
+             <result name="update_jsp">/WEB-INF/Admin_hou/update/Car_update.jsp</result>
+             <result name="input">/WEB-INF/Admin_hou/insert/Car_insert.jsp</result>
+             <result name="delete">/WEB-INF/Admin_hou/show/Car_message.jsp</result>
+		</action>
+		<!-- 公告信息 -->	
+		 <action name="user_notice_*" method="{1}"  class="com.mr.action.NoticeAction">
+             <result name="success">/WEB-INF/User_qian/user/show/show_notice.jsp</result>
+             <result name="notice_message">/WEB-INF/Admin_hou/show/Notice_message.jsp</result>
+             <result name="insert_jsp">/WEB-INF/Admin_hou/insert/Notice_insert.jsp</result>
+             <result name="update_jsp">/WEB-INF/Admin_hou/update/Notice_update.jsp</result>
+             <result name="input">/WEB-INF/Admin_hou/insert/Notice_insert.jsp</result>
+             <result name="delete">/WEB-INF/Admin_hou/show/Notice_message.jsp</result>
+		</action>
+		<!-- 物流动态 -->	
+		 <action name="user_dynamic_info_*" method="{1}"  class="com.mr.action.WuliudongtaiAction">
+             <result name="success">/WEB-INF/User_qian/user/show/show_wuliudongtai.jsp</result>
+             <result name="dongtai">/WEB-INF/User_qian/user/Wuliudongtai.jsp</result>
+             <result name="dynamic_info_message">/WEB-INF/Admin_hou/show/Wuliudongtai_message.jsp</result>
+             <result name="insert_jsp">/WEB-INF/Admin_hou/insert/Wuliudongtai_insert.jsp</result>
+             <result name="update_jsp">/WEB-INF/Admin_hou/update/Wuliudongtai_update.jsp</result>
+             <result name="input">/WEB-INF/Admin_hou/insert/Wuliudongtai_insert.jsp</result>
+             <result name="delete">/WEB-INF/Admin_hou/show/Wuliudongtai_message.jsp</result>
+		</action>
+		<!-- 物流知识 -->	
+		 <action name="user_logistics_knowledge_*" method="{1}"  class="com.mr.action.WuliuzhishiAction">
+             <result name="success">/WEB-INF/User_qian/user/show/show_wuliuzhishi.jsp</result>
+             <result name="zhishi">/WEB-INF/User_qian/user/Wuliuzhishi.jsp</result>
+             <result name="logistics_knowledge_message">/WEB-INF/Admin_hou/show/Wuliuzhishi_message.jsp</result>
+             <result name="insert_jsp">/WEB-INF/Admin_hou/insert/Wuliuzhishi_insert.jsp</result>
+             <result name="update_jsp">/WEB-INF/Admin_hou/update/Wuliuzhishi_update.jsp</result>
+             <result name="input">/WEB-INF/Admin_hou/insert/Wuliuzhishi_insert.jsp</result>
+             <result name="delete">/WEB-INF/Admin_hou/show/Wuliuzhishi_message.jsp</result>
+		</action>
+	</package>
+</struts>
