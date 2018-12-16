@@ -2,6 +2,7 @@ package com.atguigu.crud.test;
 import java.util.UUID;
 
 
+
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,22 +40,18 @@ public class MapperTest {
 
 	@Test
  	public void testCRUD()
-	{   
-			
+	{   		
 		//常规的方法获取bean
-//		ApplicationContext ioc = new ClassPathXmlApplicationContext("applicationContext.xml");
-//		DepartmentMapper bean = ioc.getBean(DepartmentMapper.class);
-//		System.out.println(bean);
+		/*ApplicationContext ioc = new ClassPathXmlApplicationContext("applicationContext.xml");
+		DepartmentMapper bean = ioc.getBean(DepartmentMapper.class);
+		System.out.println(bean);	 
+ 		System.out.println(departmentMapper);		
+		插入数据都是封装为一个对象再插入该对象
+		departmentMapper接口调用insertSelective方法(Department对象)插入数据
+		departmentMapper.insertSelective(new Department(null,"测试部"));
+		employeeMapper接口调用insertSelective方法(Employee对象)插入数据
+		employeeMapper.insertSelective(new Employee(null,"luo","M","lup@qq.com",1));*/
 		
-		 
-		//System.out.println(departmentMapper);
-		
-//		插入数据都是封装为一个对象再插入该对象
-//		departmentMapper接口调用insertSelective方法(Department对象)插入数据
-//		departmentMapper.insertSelective(new Department(null,"测试部"));
-//		employeeMapper接口调用insertSelective方法(Employee对象)插入数据
-//		employeeMapper.insertSelective(new Employee(null,"luo","M","lup@qq.com",1));
-//		
 		//批量插入，通过Spring配置文件applicationContext.xml中定配置一个可以执行批量的sqlSession
 		EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
 		for(int i=0; i<1000; i++)

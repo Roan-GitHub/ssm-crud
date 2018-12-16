@@ -13,6 +13,7 @@
  <%
  	pageContext.setAttribute("APP_PATH",request.getContextPath());
  %>
+ 		<!-- 引入Jquery -->
 <script type="text/javascript" src="${APP_PATH }/static/js/jquery-1.12.4.min.js"></script>
 		<!-- 引入样式 -->
 <link href="${APP_PATH }/static/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
@@ -176,7 +177,7 @@
 		var total;
 		var page_Num;
 		var size;
-		//页面加载完成以后直接发送ajax请求要到分页数据
+		//页面加载完成以后直接发送ajax请求要到分页数据,默认回到首页
 		$(function(){
 			to_page(1);
 		}) 
@@ -221,11 +222,13 @@
 							  .append("编辑");
 				//为编辑按钮添加一个自定义的属性"edit_id",方便指定哪一行进行修改,传入当前行的员工id
 				editBtn.attr("edit_id",item.empId);
+				
 				var delBtn = $("<button></button>").addClass("btn btn-danger btn-sm delete_btn")
 				  .append($("<span></span>").addClass("glyphicon glyphicon-trash"))
 				  .append("删除");
 				//为删除按钮添加一个自定义的属性"delete_id",方便指定哪一行进行修改,传入当前行的员工id
 				delBtn.attr("delete_id",item.empId);
+				
 				var BtnTd = $("<td></td>").append(editBtn).append(" ").append(delBtn);
 				//append()方法执行完成以后还是返回原来的元素,#emps_table为table的id
 				 $("<tr></tr>").append(checkBoxTd).append(empIDTd).append(empNameTd)
@@ -258,10 +261,11 @@
 			var ul = $("<ul></ul>").addClass("pagination");
 			var FirstPageLi = $("<li></li>").append($("<a></a>").append("首页")); 
 			var PrePageLi = $("<li></li>").append($("<a></a>").append("&laquo;"));
+			//如果当前页没有上一页(即为第1页)就禁用首页按钮和上一页按钮
 			if(result.extend.PageInfo.hasPreviousPage == false)
 			{
-				FirstPageLi.addClass("disabled");//如果没有上一页就禁用首页按钮
-				PrePageLi.addClass("disabled");//如果没有上一页就禁用上一页按钮
+				FirstPageLi.addClass("disabled");
+				PrePageLi.addClass("disabled");
 			}
 			else
 			{
@@ -269,17 +273,18 @@
 				FirstPageLi.click(function(){
 				to_page(1);
 				});  
-				//为上一页添加事件
+				//为上一页添加事件,判断是否会超过首页,超过就回到首页
 				PrePageLi.click(function(){
 					to_page(result.extend.PageInfo.pageNum-1>0?result.extend.PageInfo.pageNum-1:1);
 				});
 			}			
 			var	NextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;"));
 			var LastPageLi = $("<li></li>").append($("<a></a>").append("尾页"));
+			//如果当前页没有下一页(即为尾页)就禁用尾页按钮和下一页按钮
 			if(result.extend.PageInfo.hasNextPage == false)
 			{
-				NextPageLi.addClass("disabled");//如果没有下一页就禁用下一页按钮
-				LastPageLi.addClass("disabled");//如果没有下一页就禁用尾页按钮
+				NextPageLi.addClass("disabled");
+				LastPageLi.addClass("disabled");
 			}
 			else
 			{
@@ -402,7 +407,7 @@
 			
 			//点击保存按钮，保存员工数据
 			$("#emp_save_btn").click(function(){
-				//注意用户会绕过前端校验,所以要前端+后端双校验
+				//注意：用户会绕过前端校验,所以要前端+后端双校验
 				//1. 提交数据到服务器进行校验(前端校验)
 				 if(!validate_add_form())
 				{
@@ -423,14 +428,14 @@
 						//1.判断后端校验是否通过
 						if(result.code == 100)
 						{
-						//2.关闭模态框
-						$("#empAddModal").modal('hide');
-						//3.来到最后一页,显示刚才的数据
-						 to_page(total);
+							//2.关闭模态框
+							$("#empAddModal").modal('hide');
+							//3.来到最后一页,显示刚才的数据
+						 	to_page(total);
 						}
 						else
 						{
-							//都断校验未通过,则显示后端校验失败信息,判断哪个字段信息错误就显示在哪个字符
+							//如果校验未通过,则显示后端校验失败信息,判断哪个字段信息错误就显示在哪个字符
 							if(undefined != result.extend.error_field.email)
 							{
 								//显示邮箱的错误信息
@@ -491,15 +496,16 @@
 		 				  // console.log(result);
 		 				  //用id找下拉列表的方法：$("#dept_add_select"),另外一种方法是模态框的id：empAddModal下只有一个下拉列表
 		 				  $.each(result.extend.depts,function(){
-		 				  //this是指result.extend.depts当前遍历的对象就是department对象
-		 				  var option = $("<option></option>").append(this.deptName).attr("value",this.deptId);
-		 				  option.appendTo("#empUpdateModal select");
+		 				  	//this是指result.extend.depts当前遍历的对象就是department对象
+		 				  	var option = $("<option></option>").append(this.deptName).attr("value",this.deptId);
+		 				  	option.appendTo("#empUpdateModal select");
 		 				});
 		 			}
 		 		 });	 		
 		 		//5.弹出模态框
 				$("#empUpdateModal").modal({
-		 			backdrop:"static"
+					//点击背景模态框不会被关闭,只能点击关闭按钮或者右上角
+		 			backdrop:"static" 
 		 		});
 				//6.发送ajax请求查出当前行信息,即员工信息,$(this).attr("edit_id")获取当前行的id
 				getEmp($(this).attr("edit_id"));
@@ -508,29 +514,27 @@
 			
 			//单个删除:"删除"按钮按钮绑定事件
 			$(document).on("click",".delete_btn",function(){
-				//1.弹出是否确认删除框：
-				//2.获取删除行的员工名empName：$(this).parents("tr").find("td:eq(1)").text()
+				//1.获取删除行的员工名empName：$(this).parents("tr").find("td:eq(1)").text()
 				var empName = $(this).parents("tr").find("td:eq(2)").text();
-				//3.获取删除行的员工id-empId：$(this).attr("delete_id")
+				//2.获取删除行的员工的id传给Controller控制器,empId：$(this).attr("delete_id")
 				var empId = $(this).attr("delete_id");
 				if(confirm("确认删除【"+empName+"】"))
 				{
-					//4.确认删除,发送ajax请求删除当前行的员工信息
+					//3.确认删除,发送ajax请求删除当前行的员工信息
 					$.ajax({
 						url:"${APP_PATH}/emp/"+empId, 
 						type:"DELETE",
 						success:function(result){
+							//4.返回处理的结果！
 							alert(result.msg);
+							//5.回到当前页
 							to_page(page_Num);
 						}
-					});
-					
+					});				
 				}
 			});
 
-			
-			
-			
+				
 			//根据当前行的"编辑"按钮的添加的自定义属性"edit_id"查出该对象的所有信息
 			function getEmp(id)
 			{
@@ -566,7 +570,7 @@
 				{
 					show_validate_msg("#email_update_input","success","");
 				}
-				//2.发送ajax请求更新员工信息,serialize()序列化的结果
+				//2.发送ajax请求更新员工信息,serialize()序列化表单的内容
 				$.ajax({
 					url:"${APP_PATH}/emp_change/"+$(this).attr("edit_id"),
 					type:"GET",
@@ -590,7 +594,7 @@
 			
 			//为每个复选框绑定事件,使用on()方法是因为复选框是动态生成的
 			$(document).on("click",".check_item",function(){
-				//判断当前页的数量是否与复选框项选中的数量相同,相同则选中全选复选框
+				//判断当前页的数量是否与复选框项选中的数量相同,相同则选中全选复选框(size为当前页的记录数)
 				var flag = $(".check_item:checked").length == size;	
 				$("#check_all").prop("checked",flag);
 			});
@@ -613,12 +617,12 @@
 						url:"${APP_PATH}/emp/"+dele_ids.substring(0,dele_ids.length-1),
 						type:"DELETE",
 						success:function(result){
+							//3.弹出处理的结果
 							alert(result.msg);
-							//3.回到删除的页面
+							//4.回到删除的页面
 							to_page(page_Num);
 						}
-					});
-					
+					});		
 				}			
 			});
 			

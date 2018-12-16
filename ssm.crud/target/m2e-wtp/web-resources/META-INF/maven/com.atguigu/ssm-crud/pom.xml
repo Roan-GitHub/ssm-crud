@@ -9,7 +9,6 @@
  
 	<!--引入项目依赖的jar包 -->
 	<!-- SpringMVC、Spring -->
-	<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
 <dependencies>
       
 		<!--引入pageHelper分页插件 -->
@@ -78,7 +77,7 @@
 			<version>4.3.7.RELEASE</version>
 		</dependency>
 
-		<!--MyBatis -->
+		<!-- MyBatis -->
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
 		<dependency>
 			<groupId>org.mybatis</groupId>

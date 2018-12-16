@@ -8,7 +8,8 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
-
+		<!-- Spring配置文件的核心点（数据源、与mybatis的整合，事务控制） -->
+	<!-- 除了控制器全都扫，控制器由dispatcherServlet-servlet.xml配置文件扫 -->	
 	<context:component-scan base-package="com.atguigu">
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
@@ -33,9 +34,8 @@
 		<property name="mapperLocations" value="classpath:mapper/*.xml"></property>
 	</bean>
 
-	<!-- 配置扫描器，将mybatis接口的实现加入到ioc容器中 -->
+	<!-- 配置扫描器(扫描所有的dao接口)，将mybatis接口的实现加入到ioc容器中 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<!--扫描所有dao接口的实现，加入到ioc容器中 -->
 		<property name="basePackage" value="com.atguigu.crud.dao"></property>
 	</bean>
 	
@@ -68,13 +68,4 @@
 			<tx:method name="get*" read-only="true"/>
 		</tx:attributes>
 	</tx:advice>
-	
-	<!-- Spring配置文件的核心点（数据源、与mybatis的整合，事务控制） -->
-	<aop:config>
-		<!-- 切入点表达式".."指即使service下还有子包也可以,"(..)"指方法里面的参数任意多 -->
-		<aop:pointcut expression="execution(* com.atguigu.crud.service..*(..))" id="txPoint"/>
-		<!-- 配置事务增强 -->
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPoint"/>
-	</aop:config>
-	
 </beans>

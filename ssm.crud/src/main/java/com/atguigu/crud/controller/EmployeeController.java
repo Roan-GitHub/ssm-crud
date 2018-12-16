@@ -87,8 +87,6 @@ public class EmployeeController {
 		return Msg.success().add("emp", employee);
 	}
 	
-	
-	
 	//检查用户名是否可用的方法
 	@RequestMapping("/checkuser")
 	@ResponseBody
@@ -114,7 +112,7 @@ public class EmployeeController {
 	}	
 	
 	//保存员工的方法:/emp POST
-	//支持JSR303校验,导入hibernate-validator包,@Valid加上表示封装数据的时候需要校验
+	//支持JSR303校验,导入hibernate-validator包,@Valid:表示封装数据的时候需要校验
 	@ResponseBody
 	@RequestMapping(value="/emp",method=RequestMethod.POST)
 	public Msg saveEmp(@Valid Employee employee,BindingResult result)
@@ -142,7 +140,7 @@ public class EmployeeController {
 	}
 	
 	//导入JackSon包,该方法返回Json字符串到页面,@ResponseBody自动把返回的对象转为Json对象	
-	//不具有一定的通用性,比如删除修改,执行完是否成功不知道？(通知给用户浏览器),所以需要设置一个通用的返回
+	//不具有一定的通用性,比如删除修改,执行完是否成功不知道？(通知给用户浏览器),所以需要设置一个通用的返回类
 	//带有当前请求信息的,创建一个返回类Msg,最终返回的对象是Msg对象(自定义对象)
 	//查询员工的方法:/emps GET
 	@ResponseBody
@@ -158,7 +156,6 @@ public class EmployeeController {
 		//返回处理成功的状态码和提示信息,追加查询的结果到Msg的属性extend<String,Object>中
 		 return Msg.success().add("PageInfo",page); 
 	}
-	
 			
 	//发送/emps请求，调用该方法传入pn即第几页，将查询到结果封装为pageInfo传递给页面处理
 	//@RequestMapping("/emps")
